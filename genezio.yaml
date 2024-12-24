@@ -1,0 +1,18 @@
+backend:
+    functions:
+        - entry: dist/index.js
+          handler: handler
+          name: express
+          path: .
+          type: httpServer
+    language:
+        name: js
+    path: expo-server
+    scripts:
+        deploy:
+            - npm install
+        local:
+            - npm install
+name: aqua-yappy-tuna
+region: us-east-1
+yamlVersion: 2
