@@ -1,6 +1,6 @@
 backend:
     functions:
-        - entry: dist/index.js
+        - entry: src/index.ts
           handler: handler
           name: express
           path: .
