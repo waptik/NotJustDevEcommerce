@@ -1,11 +1,20 @@
 import type { NextFunction, Request, Response } from "express";
 import { z } from "zod";
 
-export function validateData(schema: z.ZodSchema) {
+export function validateData(schema: z.ZodObject<z.ZodRawShape>) {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const data = schema.parse(req.body);
-            req.body = data;
+            schema.parse(req.body);
+
+            req.cleanBody = Object.keys(schema.shape).reduce(
+                (acc: Record<string, unknown>, key) => {
+                    if (key in req.body) {
+                        acc[key] = req.body[key];
+                    }
+                    return acc;
+                },
+                {},
+            );
             next();
         } catch (e) {
             if (e instanceof z.ZodError) {
