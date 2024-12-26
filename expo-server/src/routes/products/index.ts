@@ -9,20 +9,15 @@ import {
     updateProduct,
 } from "./productsController";
 import { validateData } from "@/middlwares/validationMiddleware";
+import { createProductSchema, updateProductSchema } from "@/db/validations";
 
 const router = Router();
-
-const createProductSchema = z.object({
-    name: z.string().nonempty(),
-    price: z.number({ message: "Price must be a number" }).positive(),
-    description: z.string().optional(),
-});
 
 router.get("/", listProducts);
 router.post("/", validateData(createProductSchema), createProduct);
 
 router.get("/:id", getProductById);
-router.put("/:id", updateProduct);
+router.put("/:id", validateData(updateProductSchema), updateProduct);
 router.delete("/:id", deleteProduct);
 
 export default router;
