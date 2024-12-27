@@ -13,6 +13,6 @@ jobs:
       - uses: Genez-io/genezio-github-action@v2
         with:
           token: ${{ secrets.GENEZIO_TOKEN }}
-      - name: Deploy backend
-        working-directory: ./expo-server
+      - name: Deploy entire project
+        working-directory: ./
         run: genezio deploy
