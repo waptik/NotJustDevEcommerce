@@ -10,14 +10,27 @@ import {
 } from "./productsController";
 import { validateData } from "@/middlwares/validationMiddleware";
 import { createProductSchema, updateProductSchema } from "@/db/validations";
+import { verifySeller, verifyToken } from "@/middlwares/authMiddleware";
 
 const router = Router();
 
 router.get("/", listProducts);
-router.post("/", validateData(createProductSchema), createProduct);
+router.post(
+    "/",
+    verifyToken,
+    verifySeller,
+    validateData(createProductSchema),
+    createProduct,
+);
 
 router.get("/:id", getProductById);
-router.put("/:id", validateData(updateProductSchema), updateProduct);
-router.delete("/:id", deleteProduct);
+router.put(
+    "/:id",
+    verifyToken,
+    verifySeller,
+    validateData(updateProductSchema),
+    updateProduct,
+);
+router.delete("/:id", verifyToken, verifySeller, deleteProduct);
 
 export default router;
