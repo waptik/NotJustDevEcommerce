@@ -1,10 +1,10 @@
-import { createUserSchema, loginSchema } from "@/db/validations";
-import { validateData } from "@/middlwares/validationMiddleware";
-import { Router } from "express";
+import { db } from "../../db/index.js";
+import { usersTable } from "../../db/schema/index.js";
+import { createUserSchema, loginSchema } from "../../db/validations.js";
+import { validateData } from "../../middlwares/validationMiddleware.js";
 import bcrypt from "bcryptjs";
-import { db } from "@/db";
-import { usersTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { Router } from "express";
 import jwt from "jsonwebtoken";
 
 const router = Router();

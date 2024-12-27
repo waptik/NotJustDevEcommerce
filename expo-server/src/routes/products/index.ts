@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { z } from "zod";
 
 import {
     createProduct,
@@ -7,10 +6,13 @@ import {
     getProductById,
     listProducts,
     updateProduct,
-} from "./productsController";
-import { validateData } from "@/middlwares/validationMiddleware";
-import { createProductSchema, updateProductSchema } from "@/db/validations";
-import { verifySeller, verifyToken } from "@/middlwares/authMiddleware";
+} from "./productsController.js";
+import { validateData } from "../../middlwares/validationMiddleware.js";
+import {
+    createProductSchema,
+    updateProductSchema,
+} from "../../db/validations.js";
+import { verifySeller, verifyToken } from "../../middlwares/authMiddleware.js";
 
 const router = Router();
 

@@ -1,10 +1,12 @@
 import express, { json, urlencoded } from "express";
 
-import productsRouter from "./routes/products";
-import authRouter from "./routes/auth";
+import productsRouter from "./routes/products/index.js";
+import authRouter from "./routes/auth/index.js";
+import serverless from "serverless-http";
 
 const PORT = process.env.PORT || 3000;
 const app = express();
+const isProd = process.env.NODE_ENV === "production";
 
 app.use(urlencoded({ extended: true }));
 app.use(json());
@@ -16,6 +18,10 @@ app.get("/", (req, res) => {
 app.use("/products", productsRouter);
 app.use("/auth", authRouter);
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+if (!isProd) {
+    app.listen(PORT, () => {
+        console.log(`Server is running on http://localhost:${PORT}`);
+    });
+}
+
+export const handler = serverless(app);
