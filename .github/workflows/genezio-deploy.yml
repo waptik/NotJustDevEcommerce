@@ -23,10 +23,14 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
+      - name: Install dependencies
+        run: pnpm install
+
       - name: Install Genezio CLI and Deploy
         uses: Genez-io/genezio-github-action@v2
         with:
           token: ${{ secrets.GENEZIO_TOKEN }}
+
       - name: Deploy entire project
         working-directory: ./
         run: genezio deploy
