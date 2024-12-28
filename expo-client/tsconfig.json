@@ -6,6 +6,9 @@
       "@/*": [
         "./src/*"
       ],
+      "@assets/*": [
+        "./assets/*"
+      ],
       "tailwind.config": [
         "./tailwind.config.js"
       ]

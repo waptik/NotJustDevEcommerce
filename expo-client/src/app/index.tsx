@@ -5,16 +5,14 @@ import { Button, ButtonText } from "@/components/ui/button";
 
 export default function HomeScreen() {
 	return (
-		<Button onPress={() => console.log("Button pressed")} variant="outline">
-			<ButtonText>Press me</ButtonText>
-		</Button>
+		<View>
+			<FlatList
+				data={products}
+				numColumns={2}
+				contentContainerClassName="gap-2"
+				columnWrapperClassName="gap-2"
+				renderItem={({ item }) => <ProductListItem product={item} />}
+			/>
+		</View>
 	);
-	// return (
-	// 	<View>
-	// 		<FlatList
-	// 			data={products}
-	// 			renderItem={({ item }) => <ProductListItem product={item} />}
-	// 		/>
-	// 	</View>
-	// );
 }
