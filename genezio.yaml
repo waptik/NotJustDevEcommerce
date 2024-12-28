@@ -27,10 +27,10 @@ backend:
   scripts:
     deploy:
       - npm install
-      - npm build
+      - npm run build
     local:
       - npm install
-      - npm build
+      - npm run build
 
 # The version of the Genezio YAML configuration to parse.
 yamlVersion: 2
