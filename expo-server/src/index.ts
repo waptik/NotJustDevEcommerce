@@ -1,8 +1,9 @@
 import express, { json, urlencoded } from "express";
-
-import productsRouter from "./routes/products/index.js";
-import authRouter from "./routes/auth/index.js";
 import serverless from "serverless-http";
+
+import authRoutes from "./routes/auth/index.js";
+import ordersRoutes from "./routes/orders/index.js";
+import productsRoutes from "./routes/products/index.js";
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -15,8 +16,9 @@ app.get("/", (req, res) => {
     res.send(`Hello World with port from env file!${process.env.PORT}`);
 });
 
-app.use("/products", productsRouter);
-app.use("/auth", authRouter);
+app.use("/products", productsRoutes);
+app.use("/orders", ordersRoutes);
+app.use("/auth", authRoutes);
 
 if (!isProd) {
     app.listen(PORT, () => {

@@ -15,6 +15,13 @@
       "when": 1735235082675,
       "tag": "0001_fixed_cerise",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1735333862888,
+      "tag": "0002_hard_storm",
+      "breakpoints": true
     }
   ]
 }
