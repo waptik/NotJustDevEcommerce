@@ -5,12 +5,12 @@ import {
     listOrders,
     updateOrder,
 } from "./ordersController.js";
-import { verifyToken } from "@/middlwares/authMiddleware.js";
-import { validateData } from "@/middlwares/validationMiddleware.js";
+import { verifyToken } from "../../middlwares/authMiddleware.js";
+import { validateData } from "../../middlwares/validationMiddleware.js";
 import {
     insertOrderWithItemsSchema,
     updateOrderSchema,
-} from "@/db/validations.js";
+} from "../../db/validations.js";
 
 const router = Router();
 
