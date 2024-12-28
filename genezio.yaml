@@ -21,16 +21,16 @@ backend:
     # The name of the programming language.
     name: js
     # The package manager used by the backend.
-    packageManager: pnpm
+    packageManager: npm
 
   # Information about the backend's scripts.
   scripts:
     deploy:
-      - pnpm install
-      - pnpm build
+      - npm install
+      - npm build
     local:
-      - pnpm install
-      - pnpm build
+      - npm install
+      - npm build
 
 # The version of the Genezio YAML configuration to parse.
 yamlVersion: 2
