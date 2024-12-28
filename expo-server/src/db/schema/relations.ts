@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { orderItemsTable, ordersTable } from "./tables";
+import { orderItemsTable, ordersTable } from "./tables.js";
 
 export const ordersRelations = relations(ordersTable, ({ many }) => ({
     items: many(orderItemsTable),
