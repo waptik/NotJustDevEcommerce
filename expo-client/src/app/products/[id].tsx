@@ -1,34 +1,32 @@
-import { Stack, useLocalSearchParams } from "expo-router";
-import { View } from "react-native";
-import products from "@assets/products.json";
-import { Card } from "@/components/ui/card";
-import { Image } from "@/components/ui/image";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonText } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
-import { VStack } from "@/components/ui/vstack";
+import { Image } from "@/components/ui/image";
 import { Text } from "@/components/ui/text";
-
-interface Product {
-	id: number;
-	name: string;
-	description: string;
-	image: string;
-	price: number;
-}
+import { VStack } from "@/components/ui/vstack";
+import { getProduct } from "@/utils/products";
+import { useQuery } from "@tanstack/react-query";
+import { Stack, useLocalSearchParams } from "expo-router";
+import { ActivityIndicator } from "react-native";
 
 export default function ProductDetailsScreen() {
 	const { id } = useLocalSearchParams();
-	const product = products.find(
-		(product: Product) => product.id === Number(id),
-	) as Product | undefined;
+	const {
+		data: product,
+		isPending,
+		error,
+	} = useQuery({
+		queryKey: ["products", id],
+		queryFn: () => getProduct(String(id)),
+	});
 
-	if (!product) {
-		return (
-			<View>
-				<Text style={{ fontSize: 30 }}>Product not found</Text>
-			</View>
-		);
+	if (isPending) {
+		return <ActivityIndicator />;
+	}
+
+	if (error) {
+		return <Text style={{ fontSize: 30 }}>{error.message}</Text>;
 	}
 
 	return (
