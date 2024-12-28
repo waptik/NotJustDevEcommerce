@@ -18,7 +18,7 @@ export async function listProducts(req: Request, res: Response) {
 export async function getProductById(req: Request, res: Response) {
     try {
         const id = Number(req.params.id);
-        const product = await db.select().from(productsTable).where(
+        const [product] = await db.select().from(productsTable).where(
             eq(productsTable.id, id),
         ).execute();
 
