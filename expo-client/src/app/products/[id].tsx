@@ -5,6 +5,7 @@ import { Heading } from "@/components/ui/heading";
 import { Image } from "@/components/ui/image";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
+import { useCart } from "@/store/cartStore";
 import { getProduct } from "@/utils/products";
 import { useQuery } from "@tanstack/react-query";
 import { Stack, useLocalSearchParams } from "expo-router";
@@ -20,6 +21,8 @@ export default function ProductDetailsScreen() {
 		queryKey: ["products", id],
 		queryFn: () => getProduct(String(id)),
 	});
+	const addProductToCart = useCart((state) => state.addItem);
+	const cartItems = useCart((state) => state.items);
 
 	if (isPending) {
 		return <ActivityIndicator />;
@@ -28,6 +31,10 @@ export default function ProductDetailsScreen() {
 	if (error) {
 		return <Text style={{ fontSize: 30 }}>{error.message}</Text>;
 	}
+
+	const addToCart = () => {
+		addProductToCart(product);
+	};
 
 	return (
 		<Box className="flex-1 items-center p-3">
@@ -51,16 +58,11 @@ export default function ProductDetailsScreen() {
 					<Text size="sm">{product.description}</Text>
 				</VStack>
 				<Box className="flex-col sm:flex-row">
-					<Button className="px-4 py-2 mr-0 mb-3 sm:mr-3 sm:mb-0 sm:flex-1">
-						<ButtonText size="sm">Add to cart</ButtonText>
-					</Button>
 					<Button
-						variant="outline"
-						className="px-4 py-2 border-outline-300 sm:flex-1"
+						onPress={addToCart}
+						className="px-4 py-2 mr-0 mb-3 sm:mr-3 sm:mb-0 sm:flex-1"
 					>
-						<ButtonText size="sm" className="text-typography-600">
-							Wishlist
-						</ButtonText>
+						<ButtonText size="sm">Add to cart</ButtonText>
 					</Button>
 				</Box>
 			</Card>
