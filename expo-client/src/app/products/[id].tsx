@@ -6,7 +6,7 @@ import { Image } from "@/components/ui/image";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { useCart } from "@/store/cartStore";
-import { getProduct } from "@/utils/products";
+import { getProduct } from "@/utils/api/products";
 import { useQuery } from "@tanstack/react-query";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { ActivityIndicator } from "react-native";

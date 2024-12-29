@@ -1,5 +1,5 @@
 import type { Product } from "@/types/shop";
-import { API_URL } from "./const";
+import { API_URL } from "../constants";
 
 export async function listProducts() {
     const req = await fetch(`${API_URL}/products`);

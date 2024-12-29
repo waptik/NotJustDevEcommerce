@@ -1,6 +1,6 @@
-import ProductListItem from "@/components/product-list-item";
+import ProductListItem from "@/components/ProductListItem";
 import { useBreakpointValue } from "@/components/ui/utils/use-break-point-value";
-import { listProducts } from "@/utils/products";
+import { listProducts } from "@/utils/api/products";
 import { useQuery } from "@tanstack/react-query";
 import { ActivityIndicator, FlatList, View } from "react-native";
 
