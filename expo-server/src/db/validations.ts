@@ -31,10 +31,19 @@ export const updateOrderSchema = createUpdateSchema(ordersTable).pick({
 export const getOrderSchema = createSelectSchema(ordersTable);
 export const insertOrderItemSchema = createInsertSchema(orderItemsTable).omit({
     orderId: true,
+    price: true,
+});
+export const insertOrderItemWithPriceSchema = createInsertSchema(
+    orderItemsTable,
+).omit({
+    orderId: true,
 });
 const insertOrderItemsSchema = z.array(insertOrderItemSchema);
 export const insertOrderWithItemsSchema = z.object({
     items: insertOrderItemsSchema,
+});
+const insertOrderItemsWithPriceSchema = z.object({
+    items: z.array(insertOrderItemWithPriceSchema),
 });
 const updateOrderItemSchema = createUpdateSchema(orderItemsTable).omit({
     orderId: true,
@@ -46,4 +55,7 @@ export type UpdateOrderItemsSchema = z.infer<typeof updateOrderItemsSchema>;
 export type GetOrderSchema = z.infer<typeof getOrderSchema>;
 export type InsertOrderWithItemsSchema = z.infer<
     typeof insertOrderWithItemsSchema
+>;
+export type InsertOrderItemsWithPriceSchema = z.infer<
+    typeof insertOrderItemsWithPriceSchema
 >;

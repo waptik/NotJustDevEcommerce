@@ -1,9 +1,14 @@
 import type { Request, Response } from "express";
 
 import { db } from "../../db/index.js";
-import { orderItemsTable, ordersTable } from "../../db/schema/index.js";
+import {
+    orderItemsTable,
+    ordersTable,
+    productsTable,
+} from "../../db/schema/index.js";
 import type {
     GetOrderSchema,
+    InsertOrderItemsWithPriceSchema,
     InsertOrderWithItemsSchema,
     UpdateOrderSchema,
 } from "../../db/validations.js";
@@ -29,18 +34,42 @@ export async function createOrder(req: Request, res: Response) {
         return;
     }
 
+    const orderItemsWithPrice: InsertOrderItemsWithPriceSchema["items"] = [];
+
     try {
-        // TODO: validate product ids and calculate total price
+        for (const item of items) {
+            const [product] = await db.select().from(productsTable).where(
+                eq(productsTable.id, item.productId),
+            ).execute();
+
+            if (!product) {
+                res.status(400).json({ error: "Invalid product" });
+                return;
+            }
+
+            orderItemsWithPrice.push({
+                ...item,
+                price: product.price * item.quantity,
+            });
+        }
+
+        if (!orderItemsWithPrice.length) {
+            res.status(400).json({ error: "Invalid data" });
+            return;
+        }
+
         const [newOrder] = await db.insert(ordersTable).values({
             userId,
         })
             .returning();
         console.log("[createOrder] order:", newOrder);
-        const orderItems = items.map((item) => ({
+
+        const orderItems = orderItemsWithPrice.map((item) => ({
             ...item,
             orderId: newOrder.id,
         }));
         console.log("[createOrder] orderItems:", orderItems);
+
         const newOrderItems = await db.insert(orderItemsTable).values(
             orderItems,
         ).returning();
