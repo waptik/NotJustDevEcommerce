@@ -22,7 +22,6 @@ export default function ProductDetailsScreen() {
 		queryFn: () => getProduct(String(id)),
 	});
 	const addProductToCart = useCart((state) => state.addItem);
-	const cartItems = useCart((state) => state.items);
 
 	if (isPending) {
 		return <ActivityIndicator />;
