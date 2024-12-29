@@ -9,6 +9,16 @@ import jwt from "jsonwebtoken";
 
 const router = Router();
 
+async function generateToken(user: { id: number; role: string }) {
+    return jwt.sign(
+        { userId: user.id, role: user.role },
+        "some-secret",
+        {
+            expiresIn: "30d",
+        },
+    );
+}
+
 router.post("/login", validateData(loginSchema), async (req, res) => {
     const body = req.cleanBody;
 
@@ -22,7 +32,7 @@ router.post("/login", validateData(loginSchema), async (req, res) => {
         const password = body.password as string;
 
         const users = await db.select().from(usersTable).where(
-            eq(usersTable.email, email),
+            eq(usersTable.email, email.toLowerCase()),
         ).execute();
 
         if (!users.length) {
@@ -39,13 +49,7 @@ router.post("/login", validateData(loginSchema), async (req, res) => {
         }
 
         // create jwt token
-        const token = jwt.sign(
-            { userId: user.id, role: user.role },
-            "some-secret",
-            {
-                expiresIn: "30d",
-            },
-        );
+        const token = await generateToken(user);
 
         res.status(200).json({ token, user });
     } catch (error) {
@@ -72,13 +76,16 @@ router.post("/register", validateData(createUserSchema), async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const [{ password: _, ...user }] = await db.insert(usersTable).values({
-            email,
+            email: email.toLowerCase(),
             password: hashedPassword,
             name,
             role: role || "user",
         }).returning();
 
-        res.status(201).json({ user });
+        // create jwt token
+        const token = await generateToken(user);
+
+        res.status(201).json({ user, token });
     } catch (error) {
         console.error("Error", error);
         res.status(500).send("Internal server error");
