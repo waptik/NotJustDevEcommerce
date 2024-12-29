@@ -56,6 +56,7 @@ export default function RootLayout() {
 					<Stack.Screen name="index" options={{ title: "Shop" }} />
 					<Stack.Screen name="products/[id]" options={{ title: "Product" }} />
 					<Stack.Screen name="cart" options={{ title: "Cart" }} />
+					<Stack.Screen name="orders" options={{ title: "Orders" }} />
 					<Stack.Screen name="(auth)/login" options={{ title: "Login" }} />
 				</Stack>
 			</GluestackUIProvider>
